@@ -18,6 +18,11 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->web(append: [
             \App\Http\Middleware\SetLocale::class,
         ]);
+
+        // التطبيق مربوط بـ 127.0.0.1 فقط والوصول الوحيد له عبر Caddy على
+        // نفس السيرفر، فالوثوق بكل الوسطاء هون آمن وضروري لقراءة X-Forwarded-Proto
+        // بشكل صحيح (حتى لا يعتقد لارافيل أن الطلبات عبر HTTP دائمًا).
+        $middleware->trustProxies(at: '*');
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
