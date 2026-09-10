@@ -16,11 +16,15 @@ RUN apk add --no-cache \
         nginx \
         supervisor \
         bash \
+        icu-libs \
+        libzip \
+        oniguruma \
+    && apk add --no-cache --virtual .build-deps \
         icu-dev \
         libzip-dev \
         oniguruma-dev \
     && docker-php-ext-install pdo_mysql mbstring bcmath zip intl \
-    && apk del icu-dev libzip-dev oniguruma-dev
+    && apk del .build-deps
 
 WORKDIR /var/www/html
 
